@@ -1,0 +1,33 @@
+{
+  "name": "movies-explorer-api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kliueva-Kath/movies-explorer-api.git"
+  },
+  "author": "Kliueva Katherine",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kliueva-Kath/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/Kliueva-Kath/movies-explorer-api#readme",
+  "devDependencies": {
+    "eslint": "^8.25.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.20"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-winston": "^4.2.0",
+    "mongoose": "^6.6.5",
+    "validator": "^13.7.0"
+  }
+}
