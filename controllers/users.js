@@ -5,6 +5,7 @@ const BadRequestError = require('../errors/bad-req-err');
 const AuthError = require('../errors/auth-err');
 const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict-err');
+const errorMessages = require('../utils/error-messages');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -12,13 +13,13 @@ module.exports.getMyUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь с таким id не найден');
+        throw new NotFoundError(errorMessages.NotFoundUserErr);
       }
       res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(errorMessages.BadRequestErr));
       } else {
         next(err);
       }
@@ -31,13 +32,13 @@ module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Запрашиваемый пользователь не найден');
+        throw new NotFoundError(errorMessages.NotFoundUserErr);
       }
       res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(errorMessages.BadRequestErr));
       } else {
         next(err);
       }
@@ -60,9 +61,9 @@ module.exports.createUser = async (req, res, next) => {
     res.send(newUser);
   } catch (err) {
     if (err.name === 'ValidationError') {
-      next(new BadRequestError('Переданы некорректные данные'));
+      next(new BadRequestError(errorMessages.BadRequestErr));
     } else if (err.code === 11000) {
-      next(new ConflictError('Пользователь с таким email уже существует'));
+      next(new ConflictError(errorMessages.ExistingUserErr));
     } else {
       next(err);
     }
@@ -75,7 +76,7 @@ module.exports.login = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new AuthError('Неправильные почта или пароль');
+        throw new AuthError(errorMessages.AuthErr);
       }
       bcrypt.compare(password, user.password)
         .then((isUserValid) => {
@@ -91,7 +92,7 @@ module.exports.login = (req, res, next) => {
               sameSite: true,
             }).send({ token }).end();
           } else {
-            throw new AuthError('Неправильные почта или пароль');
+            throw new AuthError(errorMessages.AuthErr);
           }
         });
     })

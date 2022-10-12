@@ -4,13 +4,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const NotFoundError = require('./errors/not-found-err');
 
-const { auth } = require('./middlewares/auth');
+const routers = require('./routes/index');
 const { error } = require('./middlewares/error');
-const { urlRegExp } = require('./utils/regExp');
+const errorMessages = require('./utils/error-messages');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
+const limiter = require('./middlewares/rateLimit');
 
 const { PORT = 3000, MONGODB_URL, NODE_ENV } = process.env;
 
@@ -35,19 +35,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(requestLogger);
+app.use(limiter);
 app.use(cors);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error(errorMessages.ServerCrash);
   }, 0);
 });
 
-
-
-app.use('*', (req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
-});
+app.use('/', routers);
 
 app.use(errorLogger);
 app.use(errors());
