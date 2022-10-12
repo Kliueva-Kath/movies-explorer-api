@@ -6,6 +6,7 @@ const AuthError = require('../errors/auth-err');
 const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict-err');
 const errorMessages = require('../utils/error-messages');
+const { JWT_SECRET_DEV } = require('../utils/devConfig');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -83,7 +84,7 @@ module.exports.login = (req, res, next) => {
           if (isUserValid) {
             const token = jwt.sign(
               { _id: user._id },
-              NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+              NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV,
               { expiresIn: '7d' },
             );
             res.cookie('jwt', token, {

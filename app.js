@@ -12,6 +12,7 @@ const errorMessages = require('./utils/error-messages');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
 const limiter = require('./middlewares/rateLimit');
+const { MONGODB_DEV } = require('./utils/devConfig');
 
 const { PORT = 3000, MONGODB_URL, NODE_ENV } = process.env;
 
@@ -20,7 +21,7 @@ app.use(helmet());
 
 async function main() {
   try {
-    await mongoose.connect(NODE_ENV === 'production' ? MONGODB_URL : 'mongodb://localhost:27017/moviesdb', {
+    await mongoose.connect(NODE_ENV === 'production' ? MONGODB_URL : MONGODB_DEV, {
       useNewUrlParser: true,
       useUnifiedTopology: false,
     });

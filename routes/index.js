@@ -12,8 +12,8 @@ router.post('/signup', validateCreateUser, createUser);
 
 router.use(auth);
 
-router.use('/users', userRouter);
-router.use('/movies', movieRouter);
+router.use('/', userRouter);
+router.use('/', movieRouter);
 
 router.all('*', () => {
   throw new NotFoundError(errorMessages.NotFoundPageErr);
