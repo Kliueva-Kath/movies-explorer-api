@@ -1,6 +1,7 @@
 require('dotenv').config();
-const { celebrate, Joi, errors } = require('celebrate');
+const { errors } = require('celebrate');
 const express = require('express');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -15,6 +16,7 @@ const limiter = require('./middlewares/rateLimit');
 const { PORT = 3000, MONGODB_URL, NODE_ENV } = process.env;
 
 const app = express();
+app.use(helmet());
 
 async function main() {
   try {
