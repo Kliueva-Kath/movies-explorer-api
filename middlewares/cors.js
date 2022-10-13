@@ -1,8 +1,6 @@
 const allowedCors = [
-  'http://mesto.kliueva.nomoredomains.club',
-  'https://mesto.kliueva.nomoredomains.club',
-  'http://api.mesto.kliueva.nomoredomains.club',
-  'https://api.mesto.kliueva.nomoredomains.club',
+  'http://api.movies.kliueva.nomoredomains.icu',
+  'https://api.movies.kliueva.nomoredomains.icu',
   'http://localhost:3000',
 ];
 
