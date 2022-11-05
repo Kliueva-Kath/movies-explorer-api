@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { urlRegExp } = require('../utils/regExp');
+const errorMessages = require('../utils/error-messages');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -29,7 +30,7 @@ const movieSchema = new mongoose.Schema({
       validator(v) {
         return urlRegExp.test(v);
       },
-      message: 'Ошибка в url-адресе',
+      message: errorMessages.UrlError,
     },
   },
   trailerLink: {
@@ -39,7 +40,7 @@ const movieSchema = new mongoose.Schema({
       validator(v) {
         return urlRegExp.test(v);
       },
-      message: 'Ошибка в url-адресе',
+      message: errorMessages.UrlError,
     },
   },
   thumbnail: {
@@ -49,7 +50,7 @@ const movieSchema = new mongoose.Schema({
       validator(v) {
         return urlRegExp.test(v);
       },
-      message: 'Ошибка в url-адресе',
+      message: errorMessages.UrlError,
     },
   },
   owner: {

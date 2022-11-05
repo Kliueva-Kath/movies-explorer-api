@@ -8,7 +8,6 @@ const cookieParser = require('cookie-parser');
 
 const routers = require('./routes/index');
 const { error } = require('./middlewares/error');
-const errorMessages = require('./utils/error-messages');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
 const limiter = require('./middlewares/rateLimit');
@@ -40,12 +39,6 @@ app.use(cookieParser());
 app.use(requestLogger);
 app.use(limiter);
 app.use(cors);
-
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error(errorMessages.ServerCrash);
-  }, 0);
-});
 
 app.use('/', routers);
 

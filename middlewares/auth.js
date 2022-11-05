@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const AuthError = require('../errors/auth-err');
+const errorMessages = require('../utils/error-messages');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 module.exports.auth = (req, res, next) => {
@@ -8,7 +9,7 @@ module.exports.auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
   } catch (err) {
-    next(new AuthError('Произошла ошибка авторизации'));
+    next(new AuthError(errorMessages.TokenError));
     return;
   }
 

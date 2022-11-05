@@ -18,13 +18,7 @@ module.exports.getMyUser = (req, res, next) => {
       }
       res.send(user);
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError(errorMessages.BadRequestErr));
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
 
 module.exports.updateUser = (req, res, next) => {
@@ -40,6 +34,8 @@ module.exports.updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(errorMessages.BadRequestErr));
+      } else if (err.code === 11000) {
+        next(new ConflictError(errorMessages.ExistingUserErr));
       } else {
         next(err);
       }
