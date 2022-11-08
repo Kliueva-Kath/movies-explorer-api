@@ -52,7 +52,7 @@ module.exports.saveMovie = (req, res, next) => {
 
 module.exports.deleteMovie = (req, res, next) => {
   const { movieId } = req.params;
-  Movie.findById(movieId)
+  Movie.findOne({ movieId })
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError(errorMessages.NotFoundMovieErr);
@@ -60,7 +60,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (movie.owner.toString() !== req.user._id) {
         throw new ForbiddenError(errorMessages.ForbiddenErr);
       } else {
-        Movie.findByIdAndRemove(movieId)
+        Movie.findOneAndRemove({ movieId })
           .then((delMovie) => {
             res.send(delMovie);
           })
