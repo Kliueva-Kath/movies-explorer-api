@@ -13,7 +13,7 @@ const cors = require('./middlewares/cors');
 const limiter = require('./middlewares/rateLimit');
 const { MONGODB_DEV } = require('./utils/devConfig');
 
-const { PORT = 4000, MONGODB_URL, NODE_ENV } = process.env;
+const { PORT = 3000, MONGODB_URL, NODE_ENV } = process.env;
 
 const app = express();
 app.use(helmet());
