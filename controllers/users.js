@@ -98,5 +98,5 @@ module.exports.login = (req, res, next) => {
 };
 
 module.exports.logout = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'токен удален' }).end();
+  res.clearCookie('jwt').send({ message: 'токен удален' });
 };
