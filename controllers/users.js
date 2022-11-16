@@ -86,8 +86,7 @@ module.exports.login = (req, res, next) => {
             res.cookie('jwt', token, {
               maxAge: 3600000 * 24 * 7,
               httpOnly: true,
-              sameSite: 'none',
-              secure: true,
+              sameSite: true,
             }).send({ token }).end();
           } else {
             throw new AuthError(errorMessages.AuthErr);
@@ -96,4 +95,8 @@ module.exports.login = (req, res, next) => {
         .catch(next);
     })
     .catch(next);
+};
+
+module.exports.logout = (req, res) => {
+  res.clearCookie('jwt').send({ message: 'токен удален' }).end();
 };
